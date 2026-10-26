@@ -1,0 +1,62 @@
+<Window x:Class="BarkTool.Desktop.SettingsWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Icon="pack://application:,,,/BarkTool;component/Resources/bark.ico" Title="Bark · 设置" Width="470" Height="555"
+        MinWidth="400" MinHeight="510" WindowStartupLocation="CenterScreen" Background="{StaticResource Background}">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="26">
+            <TextBlock Text="连接你的 iPhone" FontSize="23" FontWeight="SemiBold" Margin="0,0,0,8" />
+            <TextBlock Text="先在 iPhone Bark 中添加自建服务器，再填入设备 Key。" Foreground="{StaticResource Subtle}" TextWrapping="Wrap" Margin="0,0,0,22" />
+            <CheckBox x:Name="StartWithWindows" Content="开机自启（登录 Windows 后运行）" Foreground="#F3F7FF"
+                      Margin="0,0,0,7" Click="Startup_Click" />
+            <TextBlock Text="此开关立即生效。启用前请将程序放在固定目录，移动后需重新开启。" Foreground="{StaticResource Subtle}" TextWrapping="Wrap" FontSize="11" Margin="0,0,0,20" />
+            <TextBlock Text="Bark 服务器地址" Margin="0,0,0,6" />
+            <TextBox x:Name="BarkUrl" ToolTip="例如 https://bark.example.com；局域网调试可用 http://192.168.x.x:18081" />
+            <TextBlock Text="设备 Key" Margin="0,15,0,6" />
+            <PasswordBox x:Name="DeviceKey" Padding="9" Background="#10182A" Foreground="#F3F7FF" />
+            <TextBlock Text="推送加密密钥（必填）" Margin="0,15,0,6" />
+            <PasswordBox x:Name="EncryptionKey" Padding="9" Background="#10182A" Foreground="#F3F7FF" />
+            <TextBlock Text="iPhone Bark → 推送加密：选择 AES-CBC、PKCS7，填写相同密钥。16 / 24 / 32 个英文字母或数字分别对应 AES-128 / 192 / 256。IV 每次随机发送，无需固定一致。图片文件本身不加密。" Foreground="{StaticResource Subtle}" TextWrapping="Wrap" Margin="0,8,0,0" />
+            <TextBlock Text="通知方式" Margin="0,15,0,6"/>
+            <ComboBox x:Name="NotificationMode" SelectedValuePath="Tag" Padding="7">
+                <ComboBoxItem Content="普通通知" Tag="active"/>
+                <ComboBoxItem Content="静默通知（不打扰）" Tag="passive"/>
+                <ComboBoxItem Content="时效性通知（需 iPhone 授权）" Tag="timeSensitive"/>
+            </ComboBox>
+            <CheckBox x:Name="AutoCopyEnabled" Content="请求 iPhone 自动复制正文" Foreground="#EDF3FC" Margin="0,10,0,0"/>
+            <TextBlock Text="分组（可选）" Margin="0,15,0,6" />
+            <TextBox x:Name="Group" />
+            <Border BorderBrush="#47546B" BorderThickness="0,1,0,0" Margin="0,23,0,17" />
+            <TextBlock Text="图片上传 · 现有 EasyImage" FontSize="17" Margin="0,0,0,6" />
+            <TextBlock Text="上传图片需要图床公网 HTTPS 地址和独立的上传 Token；文字发送不需要填写。" Foreground="{StaticResource Subtle}" TextWrapping="Wrap" Margin="0,0,0,12" />
+            <TextBlock Text="图床地址" Margin="0,0,0,6" />
+            <TextBox x:Name="ImageUrl" ToolTip="例如 https://images.example.com" />
+            <TextBlock Text="上传 Token" Margin="0,15,0,6" />
+            <PasswordBox x:Name="ImageToken" Padding="9" Background="#10182A" Foreground="#F3F7FF" />
+            <Border BorderBrush="#47546B" BorderThickness="0,1,0,0" Margin="0,23,0,17" />
+            <CheckBox x:Name="OptimizeImages" Content="上传前缩放并压缩图片" Foreground="#EDF3FC" Margin="0,0,0,8"/>
+            <TextBlock Text="最长边（像素，320–4096）"/><Slider x:Name="MaxImageDimension" Minimum="320" Maximum="4096" TickFrequency="64" IsSnapToTickEnabled="True" Margin="0,8,0,8"/>
+            <TextBlock Text="JPEG 质量（50–95）"/><Slider x:Name="ImageQuality" Minimum="50" Maximum="95" TickFrequency="1" IsSnapToTickEnabled="True" Margin="0,8,0,8"/>
+            <TextBlock Text="保留透明度和 GIF 动画。预览显示处理后尺寸及大小；压缩默认关闭。" TextWrapping="Wrap" Foreground="{StaticResource Subtle}" FontSize="11" Margin="0,0,0,14"/>
+            <TextBlock Text="游戏前台时隐藏（每行一个游戏 EXE 名称）" Margin="0,8,0,6"/>
+            <TextBox x:Name="GameNames" AcceptsReturn="True" Height="70" VerticalScrollBarVisibility="Auto"/>
+            <Button Content="添加游戏程序…" Click="AddGame_Click" Margin="0,8,0,5"/>
+            <TextBlock Text="仅当前台是名单中的游戏时隐藏，窗口模式也生效。切回其他软件恢复；受保护进程可能无法识别。" Foreground="{StaticResource Subtle}" FontSize="11" TextWrapping="Wrap" Margin="0,0,0,10"/>
+            <TextBlock Text="全局快捷键" FontSize="17" Margin="0,4,0,8"/>
+            <TextBlock Text="点击对应输入框，再直接按下新的组合键；输入框不显示文本光标。勾选所需动作，再点“应用快捷键”立即生效；冲突时保留原快捷键。" TextWrapping="Wrap" Foreground="{StaticResource Subtle}" FontSize="11" Margin="0,0,0,10"/>
+            <CheckBox x:Name="EnableHotkeys" Content="启用全局快捷键" Foreground="#EDF3FC" Margin="0,4,0,10"/>
+            <CheckBox x:Name="ComposeEnabled" Content="打开输入面板" Foreground="#EDF3FC"/><TextBox x:Name="ComposeHotkey" PreviewKeyDown="CaptureHotkey" Margin="0,5,0,8"/>
+            <CheckBox x:Name="ClipboardEnabled" Content="直接发送剪贴板" Foreground="#EDF3FC"/><TextBox x:Name="ClipboardHotkey" PreviewKeyDown="CaptureHotkey" Margin="0,5,0,8"/>
+            <CheckBox x:Name="ImageEnabled" Content="选图预览确认" Foreground="#EDF3FC"/><TextBox x:Name="ImageHotkey" PreviewKeyDown="CaptureHotkey" Margin="0,5,0,14"/>
+            <CheckBox x:Name="CaptureEnabled" Content="框选截图并预览" Foreground="#EDF3FC"/><TextBox x:Name="CaptureHotkeyBox" PreviewKeyDown="CaptureHotkey" Margin="0,5,0,14"/>
+            <WrapPanel Margin="0,0,0,8">
+                <Button x:Name="ApplyHotkeysButton" Content="应用快捷键" Click="ApplyHotkeys_Click"/>
+                <Button Content="恢复默认组合" Click="ResetHotkeys_Click"/>
+            </WrapPanel>
+            <TextBlock x:Name="HotkeyStatus" Foreground="{StaticResource Accent}" TextWrapping="Wrap" FontSize="12"/>
+            <StackPanel Orientation="Horizontal" Margin="0,24,0,0">
+                <Button Content="保存设置" Click="Save_Click" Background="#207669" />
+                <Button Content="关闭" Click="Close_Click" />
+            </StackPanel>
+            <TextBlock x:Name="Status" Foreground="{StaticResource Accent}" TextWrapping="Wrap" Margin="0,14,0,0" />
+        </StackPanel>
+    </ScrollViewer>
+</Window>

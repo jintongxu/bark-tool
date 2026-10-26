@@ -1,0 +1,36 @@
+<Application x:Class="BarkTool.Desktop.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             ShutdownMode="OnExplicitShutdown">
+    <Application.Resources>
+        <Style TargetType="Window">
+            <Setter Property="Icon" Value="pack://application:,,,/BarkTool;component/Resources/bark.ico" />
+        </Style>
+        <SolidColorBrush x:Key="Background" Color="#141C2C" />
+        <SolidColorBrush x:Key="Surface" Color="#202B40" />
+        <SolidColorBrush x:Key="Accent" Color="#65DBC4" />
+        <SolidColorBrush x:Key="Ink" Color="#F3F7FF" />
+        <SolidColorBrush x:Key="Subtle" Color="#A6B5CB" />
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource Ink}" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="Background" Value="{StaticResource Surface}" />
+            <Setter Property="Foreground" Value="{StaticResource Ink}" />
+            <Setter Property="BorderBrush" Value="#47546B" />
+            <Setter Property="Padding" Value="11,8" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Margin" Value="0,0,8,0" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="Background" Value="#10182A" />
+            <Setter Property="Foreground" Value="{StaticResource Ink}" />
+            <Setter Property="BorderBrush" Value="#47546B" />
+            <Setter Property="Padding" Value="9" />
+            <Setter Property="CaretBrush" Value="{StaticResource Accent}" />
+        </Style>
+    </Application.Resources>
+</Application>
